@@ -20,40 +20,11 @@
 # 
 # 3. Import them into iTunes using 'File' > 'Add to Library'
 
-import requests
-from BeautifulSoup import BeautifulSoup as Soup
 from urlparse import urlparse
 import os
-import re
 
-def fetch_youtube_urls(category_url):
-    # Scrape the pyvideo site to get titles and descriptions of 
-    # each video so you can choose which you want to download.
-    urls = []
-    soup = Soup(requests.get(category_url).content)
-    for div in soup('div', attrs={'class': 'row-fluid section'}):
-        title = div.findAll('a')[1].text
-        description = div.findNext('div', attrs={'class':
-                                                 'span7'}).findNext('p').text
-        os.system('clear')
-        print
-        print title
-        print '=' * len(title)
-        print description
-        print
-        result = raw_input('Fetch this video? [y/N] ' )
-        if result.lower() != 'y':
-            continue
+from pyvideo import fetch_youtube_urls
 
-        filename = re.sub(r'\s', '-', title).lower()
-        filename = re.sub(r'[^\w-]', '', filename)
-        
-        video_path = div.findNext('a')['href']
-        video_url = 'http://pyvideo.org%s' % video_path
-        video_soup = Soup(requests.get(video_url).content)
-        youtube_url = video_soup('embed')[0]['src']
-        urls.append((youtube_url, filename))
-    return urls
 
 def download_video(url):
     # Use youtube-dl to handle the download
