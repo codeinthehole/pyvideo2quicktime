@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import sys
 
 from pyvideo import fetch_youtube_urls
