@@ -1,4 +1,4 @@
-from urlparse import urlparse
+from urlparse import urlparse, parse_qs
 import os
 
 from pyvideo import fetch_youtube_urls
@@ -23,9 +23,12 @@ def download_video(url):
     os.system('./youtube-dl "%s"' % url)
     # youtube-dl will download the video to a file with
     # name matching the YouTube ID of the video.
-    parts = urlparse(url)
-    id = parts.path.split('/')[2].split('&')[0]
-    return '%s.flv' % id
+    return '%s.flv' % extract_youtube_id(url)
+
+
+def extract_youtube_id(url):
+    q = urlparse(url).query
+    return parse_qs(q)['v']
 
 
 def convert_flv_to_m4v(flv_path, m4v_path):
