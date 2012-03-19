@@ -28,7 +28,7 @@ def download_video(url):
 
 def extract_youtube_id(url):
     q = urlparse(url).query
-    return parse_qs(q)['v']
+    return parse_qs(q)['v'][0]
 
 
 def convert_flv_to_m4v(flv_path, m4v_path):
