@@ -1,14 +1,12 @@
 from urlparse import urlparse, parse_qs
 import os
 
-from pyvideo import fetch_youtube_urls
-
 
 def download(youtube_url, filename):
     foldername = 'quicktime'
     if not os.path.exists(foldername):
         os.mkdir(foldername)
-    notify('Downloading %s' % youtube_url)
+    notify('Downloading %s (%s)' % (youtube_url, filename))
     flv_filename = download_video(youtube_url)
     m4v_filepath = '%s/%s.m4v' % (foldername, filename)
     notify('Converting %s tp M4V format %s' % (flv_filename, m4v_filepath))
@@ -32,7 +30,7 @@ def extract_youtube_id(url):
 
 
 def convert_flv_to_m4v(flv_path, m4v_path):
-    # Shell out to ffmpeg to do the conversion - hide the 
+    # Shell out to ffmpeg to do the conversion - hide the
     # output as there's masses of it.
     os.system('ffmpeg -i %s %s > /dev/null' % (flv_path, m4v_path))
 
