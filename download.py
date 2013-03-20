@@ -9,11 +9,14 @@ def download(youtube_url, filename):
     notify('Downloading %s (%s)' % (youtube_url, filename))
     flv_filename = download_video(youtube_url)
     m4v_filepath = '%s/%s.m4v' % (foldername, filename)
-    notify('Converting %s tp M4V format %s' % (flv_filename, m4v_filepath))
-    convert_flv_to_m4v(flv_filename, m4v_filepath)
-    notify('Conversion finished - cleaning up')
-    os.unlink(flv_filename)
-    return m4v_filepath
+    if not os.path.exists(m4v_filepath):
+        notify("No file downloaded - aborting!")
+    else:
+        notify('Converting %s tp M4V format %s' % (flv_filename, m4v_filepath))
+        convert_flv_to_m4v(flv_filename, m4v_filepath)
+        notify('Conversion finished - cleaning up')
+        os.unlink(flv_filename)
+        return m4v_filepath
 
 
 def download_video(url):
