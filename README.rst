@@ -2,6 +2,9 @@
 pyvideo2quicktime
 =================
 
+*Note that PyVideo now hosts video files on S3 and so this script isn't necessary
+to download the talks.*
+
 What does this do?
 ------------------
 
