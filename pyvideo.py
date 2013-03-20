@@ -7,7 +7,7 @@ from textwrap import wrap
 
 
 def fetch_youtube_urls(category_url):
-    # Scrape the pyvideo site to get titles and descriptions of 
+    # Scrape the pyvideo site to get titles and descriptions of
     # each video so you can choose which you want to download.
     urls = []
     for title, description, video_url in fetch_metadata_for_videos(category_url):
@@ -23,7 +23,7 @@ def fetch_youtube_urls(category_url):
 
 def fetch_metadata_for_videos(category_url):
     """
-    Return generator for the title, description and video URLs for 
+    Return generator for the title, description and video URLs for
     each video on a given category page.
     """
     soup = Soup(requests.get(category_url).content)
@@ -52,9 +52,11 @@ def fetch_youtube_url(page_url):
     Pluck the YouTube URL from a given page URL.
     """
     video_soup = Soup(requests.get(page_url).content)
-    script = video_soup('script')[1]
-    m = re.search(r'video_url: "(.*)",', script.string)
-    return m.group(1)
+    for anchor in video_soup('a'):
+        if not anchor.has_key('href'):
+            continue
+        if 'youtube' in anchor['href']:
+            return anchor['href']
 
 
 class YouTubeLinkExtractionTests(unittest.TestCase):
